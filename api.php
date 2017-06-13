@@ -72,7 +72,7 @@ class ApiController
 					if (strtolower($callback[0]) == $serviceName)
 					{
 						$restServiceToCall = new $serviceName();
-						$restServiceToCall->$callback[1]($request_method, $dataForApi);
+						$restServiceToCall->{$callback[1]}($request_method, $dataForApi);
 					}
 				}
 			}

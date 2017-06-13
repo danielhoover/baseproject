@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_NOTICE);
+
 define('VIEW_DIRECTORY', __DIR__.'/views/');
 
 
