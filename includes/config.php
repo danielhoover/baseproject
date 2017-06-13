@@ -1,6 +1,6 @@
 <?php
 
-define('URL_PATH', '/uebung04/aufgabe02');
+define('URL_PATH', '/baseproject');
 
 define('LOGIN_URL', 'login');
 define('LOGOUT_URL', 'logout');
