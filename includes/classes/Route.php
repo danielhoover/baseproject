@@ -24,9 +24,16 @@ class Route
 
 		$requestUri = $parts[0]; //be only interested in the first part - which is the url without ?
 
+		$urlPath = URL_PATH;
+
+		if($urlPath == '/')
+		{
+			$urlPath = '';
+		}
+
 		foreach($route as $key => $routeOption)
 		{
-			if($requestUri == URL_PATH.$key)
+			if($requestUri == $urlPath.$key)
 			{
 				$controller = new $routeOption['controller']($routeOption['uniqueName']);
 				exit;
