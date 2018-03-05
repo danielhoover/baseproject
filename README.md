@@ -41,5 +41,7 @@ Speichern von Daten. z.B. das speichern von Daten nach ändern eines Nutzers. Ru
 
 Löschen von Daten. z.B. das löschen von Nutzern. Ruft die Methode deleteRequest auf - in $data finden Sie alle übergebenen Parameter (Variablen des DELETE Requests)
 
+## Tutorial
+
 Ein kleines Tutorial um mit der Erweiterung und Nutzung dieses kleinen Frameworks warm zu werden finden Sie hier:
 https://github.com/danielhoover/baseproject/wiki/Tutorial
