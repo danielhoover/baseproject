@@ -33,12 +33,6 @@ class View
 			$this->arrData['header'] = $strBuffer;
 		}
 
-
-		if(file_exists(VIEW_DIRECTORY.$this->viewName.'.php'))
-		{
-			include(VIEW_DIRECTORY.$this->viewName.'.php');
-		}
-
 		if(file_exists(VIEW_DIRECTORY.'/parts/footer.php'))
 		{
 			ob_start();
@@ -51,6 +45,14 @@ class View
 
 			$this->arrData['footer'] = $strBuffer;
 		}
+
+
+		if(file_exists(VIEW_DIRECTORY.$this->viewName.'.php'))
+		{
+			include(VIEW_DIRECTORY.$this->viewName.'.php');
+		}
+
+
 	}
 
 	public function parse()
