@@ -25,68 +25,74 @@ jQuery(document).ready(function() {
 
         registerModal.find('.btn-primary').prop('disabled', true); //prevent sending the formular again while we check it
 
-        hasError = false; //we are positive...
-
         if(typeof that === 'undefined') {
             that = registerModal.find('.btn-primary').get(0);
         }
 
-        var nonEmptyFields = ['#name', '#pwd', '#pwd2'];
+        if(this.checkValidity() === false) {
+            e.preventDefault();
+            e.stopPropagation();
 
-        for(i = 0; i < nonEmptyFields.length; i++) {
-            if($(nonEmptyFields[i]).val() == '') {
-                hasError = true;
-                $(nonEmptyFields[i]).closest('.form-group').addClass('has-error');
+            if($('#name').val() === '') {
+                $('#name').siblings('.invalid-feedback').text('Nutzername darf nicht leer sein!');
             }
-        }
 
-        if(!hasError) {
-            //check if pwd is long enough...
-            if($('#pwd').val().length < 8) {
-                $('#pwd').closest('.form-group').addClass('has-error');
-                hasError = true;
+            registerModal.find('.btn-primary').prop('disabled', false);
+            jQuery(this).addClass('was-validated');
+
+        } else {
+            if($('#pwd').val() !== $('#pwd2').val()) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('#pwd').focus();
+
+                $('#pwd2')[0].setCustomValidity('Passwörter müssen übereinstimmen!');
+                registerModal.find('.btn-primary').prop('disabled', false);
+
+                jQuery(this).addClass('was-validated');
+
+                return false;
             }
             else {
+                $.ajax({
+                    'url': $(this).attr('action'),
+                    'method': $(this).attr('method'),
+                    'data': $(this).serialize(),
+                    'dataType': "json",
+                    'success': function (receivedData) {
 
-                if($('#pwd').val() != $('#pwd2').val()) {
-                    $('#pwd2').closest('.form-group').addClass('has-error');
-                    hasError = true;
-                    registerModal.find('.btn-primary').prop('disabled', false);
-                } else {
-                    //everything fine
+                        if(receivedData.result)
+                        {
+                            toastr.success(receivedData.message);
 
-                    $.ajax({
-                        'url': $(this).attr('action'),
-                        'method': $(this).attr('method'),
-                        'data': $(this).serialize(),
-                        'dataType': "json",
-                        'success': function (receivedData) {
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 2500);
 
-                            if(receivedData.result)
-                            {
-                                toastr.success(receivedData.message);
-
-                                window.setTimeout(function() {
-                                    location.reload();
-                                }, 2500);
-
-                            }
-                            else
-                            {
-                                registerModal.find('.form-group').removeClass('has-error');
-
-                                $.each(receivedData.data.errorFields, function(key, value) {
-                                    $('#'+key).closest('.form-group').addClass('has-error');
-                                });
-                            }
-
-                            registerModal.find('.btn-primary').prop('disabled', false);
                         }
-                    });
+                        else
+                        {
+                            registerModal.find('.form-group').removeClass('has-error');
 
-                }
+                            $.each(receivedData.data.errorFields, function(key, value) {
+                                $('#'+key).addClass('is-invalid');
+
+                                if(key == 'name') {
+                                    $('#name').siblings('.invalid-feedback').text('Nutzername ist schon vorhanden!');
+                                }
+                            });
+                        }
+
+                        registerModal.find('.btn-primary').prop('disabled', false);
+                    }
+                });
             }
+
         }
+
+        //jQuery(this).addClass('was-validated');
+
+
 
         registerModal.find('.btn-primary').prop('disabled', false);
 
