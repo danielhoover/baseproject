@@ -2,7 +2,9 @@
   RewriteEngine On
 
   #adapt this following line to your path if necessary
-  RewriteBase /kufstein/baseproject
+  #if you project is accessible via http://localhost/baseproject
+  #you need to change it to RewriteBase /baseproject/
+  RewriteBase /
 
   ##
   # Change the RewriteBase if your project is in a subdirectoy and
