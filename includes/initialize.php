@@ -36,6 +36,10 @@ if(!function_exists('classAutoLoader'))
 		{
 			require_once(__DIR__.'/restservices/'.$fileName.'.php');
 		}
+		else if(file_exists(__DIR__.'/restservices/'.ucfirst($fileName).'.php'))
+		{
+			require_once(__DIR__.'/restservices/'.ucfirst($fileName).'.php');
+		}
 		else
 		{
 			throw new Exception("Unable to load $fileName.");
