@@ -4,7 +4,7 @@ Dieses Repository können Sie als Studenten der FH Kufstein des Kurses Web Devel
 
 Sollten Sie irgendwo über ein (c) copyright Daniel Hoover stoßen können Sie dieses gerne entfernen. Ich erhebe kein Copyright auf diesen Quelltext.
 
-## Konfiguration
+## Konfiguration & Installation
 
 Passen Sie bitte die Dateien /.htaccess, /includes/dbconfig.php und /includes/config.php entsprechend an. 
 
@@ -45,3 +45,33 @@ Löschen von Daten. z.B. das löschen von Nutzern. Ruft die Methode deleteReques
 
 Ein kleines Tutorial um mit der Erweiterung und Nutzung dieses kleinen Frameworks warm zu werden finden Sie hier:
 https://github.com/danielhoover/baseproject/wiki/Tutorial
+
+## known issues
+
+Sollten die Restservices nicht richtig funktionieren könnte ein Problem sein, dass z.B. "address" requested wird und keine entsprechende "address.php" Datei im Ordner restservices gefunden wird. Um das Problem zu beheben einfach in die Datei includes/initialize.php gehen und dort folgendes
+```php
+		else if(file_exists(__DIR__.'/restservices/'.$fileName.'.php'))
+		{
+			require_once(__DIR__.'/restservices/'.$fileName.'.php');
+		}
+		else
+		{
+			throw new Exception("Unable to load $fileName.");
+		}
+```
+mit folgendem austauschen:
+
+```php
+		else if(file_exists(__DIR__.'/restservices/'.$fileName.'.php'))
+		{
+			require_once(__DIR__.'/restservices/'.$fileName.'.php');
+		}
+		else if(file_exists(__DIR__.'/restservices/'.ucfirst($fileName).'.php'))
+		{
+			require_once(__DIR__.'/restservices/'.ucfirst($fileName).'.php');
+		}
+		else
+		{
+			throw new Exception("Unable to load $fileName.");
+		}
+```
